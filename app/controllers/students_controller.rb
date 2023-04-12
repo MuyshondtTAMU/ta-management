@@ -178,7 +178,7 @@ class StudentsController < ApplicationController
   def admin_user
     unless is_admin?
       flash[:danger] = "You do not have administrative access to this page."
-      redirect_back(fallback_location: { action: "new", id: session[:user_id]})
+      redirect_to user_url(session[:user_id])
     end
   end
   
