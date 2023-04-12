@@ -5,6 +5,8 @@ class ProfessorsController < ApplicationController
   # GET /professors or /professors.json
   def index
     @professors = Professor.all
+    @assign = Assignment.find_by(professor_id: @professor.id)
+    @student = Student.find(@assign.student_id)
   end
 
   # GET /professors/1 or /professors/1.json

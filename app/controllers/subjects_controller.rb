@@ -3,7 +3,6 @@
 class SubjectsController < ApplicationController
   before_action :set_subject, only: %i[show edit update destroy]
   before_action :admin_user
-  
 
   # GET /subjects or /subjects.json
   def index
@@ -104,7 +103,8 @@ class SubjectsController < ApplicationController
   def subjects_params
     params.permit(subjects: %i[course_name course_section]).require(:subjects)
   end
-  
+
+  # Confirms an admin user
   def admin_user
     unless is_admin?
       flash[:danger] = "You do not have administrative access to this page."

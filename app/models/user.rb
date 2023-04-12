@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_one :student
   has_one :professor
   has_one :management
+  has_many :assignments
 
 
     before_save { self.email_id = email_id.downcase }
