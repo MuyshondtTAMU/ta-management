@@ -68,41 +68,21 @@ class CsvImportUsersService
         @prof = Professor.find(@professor.id)
         @prof.update(course_list: row['Code'].to_s + " " + row['Course'].to_s, course_section: row["Section"], name: row["Instructor"], email_id: row["Instructor Email"])
       end
-      
-      # @professor_email = row['Instructor Email']
-      # @professor = Professor.joins(:user).find_by(users: { email_id: @professor_email })
-      # if @professor.nil?
-      #   next # skip to the next iteration
-      # end
-      
-      # @prof = Professor.find(@professor.id)
-      # @prof.update(course_list: row['Code'].to_s + " " + row['Course'].to_s, course_section: row["Section"], name: row["Instructor"], email_id: row["Instructor Email"])
+
     
     end
     
-    # { skipped_rows: skipped_rows }
-    # puts "Testing 1"
-    # puts skipped_rows.class
-    # puts skipped_rows.length()
-    # puts "Testing 2"
-    # puts "Skipped Rows: #{skipped_rows.join(', ')}" unless skipped_rows.empty?
     @students = Student.all
-    @students.each do |student|
-      student.update(application_status: "not applied")
-    end
+    @students.destroy_all
+    # @students.each do |student|
+    #   student.update(application_status: "not applied")
+    # end
     unique_subjects = subjects.uniq { |subject| [subject[:course_name], subject[:course_section]] }
     @subjects = Subject.all
     @subjects.destroy_all
 
     Subject.create(unique_subjects)
-    
 
-  
-    
-    # @professor = Professor.find(params[:id])
-    # @professor.name = params[:professor][:name]
-    # @professor.email_id = params[:professor][:email_id]
-    #@professor.save
     return skipped_rows
   end
 end

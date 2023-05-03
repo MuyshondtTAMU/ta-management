@@ -49,6 +49,8 @@ class SchedulesController < ApplicationController
         end
         @subjects = Subject.all
         @subjects.destroy_all
+        @students = Student.all
+        @students.destroy_all
         respond_to do |format|
           format.html { redirect_to admin_url, notice: "Schedules were successfully removed." }
           format.json { head :no_content }
