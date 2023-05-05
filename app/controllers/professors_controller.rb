@@ -1,7 +1,7 @@
 class ProfessorsController < ApplicationController
   before_action :set_professor, only: %i[ show edit update destroy ]
-  # before_action :management_user, only: [:index]
-  before_action :admin_user
+  before_action :professor_user, only: [:show]
+  before_action :admin_user, only: [:index, :new, :edit, :create, :update, :destroy]
   # before_action :require_user_logged_in!
 
   # GET /professors or /professors.json
@@ -140,11 +140,11 @@ class ProfessorsController < ApplicationController
       end
     end
   
-        # Confirms a coordinator user
-    # def management_user
-    #   unless is_management?
-    #     flash[:danger] = "You do not have administrative access to this page."
-    #     redirect_to user_url(session[:user_id])
-    #   end
-    # end
+        #Confirms a coordinator user
+    def professor_user
+      unless is_professor?
+        flash[:danger] = "You cannot access this page."
+        redirect_to user_url(session[:user_id])
+      end
+    end
 end
