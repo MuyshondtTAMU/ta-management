@@ -4,7 +4,8 @@ class User < ApplicationRecord
   
   has_one :student
   has_one :professor
-  has_one :management
+  # has_one :management
+  has_one :management, dependent: :destroy
   # has_many :assignments
 
 
