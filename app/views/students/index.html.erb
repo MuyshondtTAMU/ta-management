@@ -13,16 +13,6 @@
   <header>
   <div class='container'>
     
-            <li>
-          <% if current_user[:access_level] == 'admin'%>
-            <td><%= link_to "Admin portal", admin_path(user) %></td>
-          <% end %>
-        </li>
-                <li>
-          <% if current_user[:access_level] == 'Professor'%>
-            <td><%= link_to "View TAs", "/professors/#{@user.id}" %></td>
-          <% end %>
-        </li>
     <nav>
       <ul>
         <li><%=link_to "Home", '/students'  %></li>
