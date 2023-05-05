@@ -1,6 +1,7 @@
 class ProfessorsController < ApplicationController
   before_action :set_professor, only: %i[ show edit update destroy ]
-  before_action :management_user, only: [:index]
+  # before_action :management_user, only: [:index]
+  before_action :admin_user
   # before_action :require_user_logged_in!
 
   # GET /professors or /professors.json
@@ -110,32 +111,40 @@ class ProfessorsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_professor
-    @professor = Professor.find_by_user_id(session[:user_id])
-  end
-
-  # Only allow a list of trusted parameters through.
-  def professor_params
-    params.require(:professor).permit(:name, :email_id, :course_list, :course_section, :student_review)
-  end
-
-  def update_professor
-    @professor_email = params[:professor][:email_id]
-    @professor = Professor.joins(:user).find_by(users: { email_id: :professor_email })
-  
-    
-    # @professor = Professor.find(params[:id])
-    # @professor.name = params[:professor][:name]
-    # @professor.email_id = params[:professor][:email_id]
-    # @professor.save
-  end
-  
-      # Confirms a coordinator user
-  def management_user
-    unless is_management?
-      flash[:danger] = "You do not have administrative access to this page."
-      redirect_to user_url(session[:user_id])
+    # Use callbacks to share common setup or constraints between actions.
+    def set_professor
+      @professor = Professor.find_by_user_id(session[:user_id])
     end
-  end
+  
+    # Only allow a list of trusted parameters through.
+    def professor_params
+      params.require(:professor).permit(:name, :email_id, :course_list, :course_section, :student_review)
+    end
+  
+    def update_professor
+      @professor_email = params[:professor][:email_id]
+      @professor = Professor.joins(:user).find_by(users: { email_id: :professor_email })
+    
+      
+      # @professor = Professor.find(params[:id])
+      # @professor.name = params[:professor][:name]
+      # @professor.email_id = params[:professor][:email_id]
+      # @professor.save
+    end
+    
+    # Confirms an admin user
+    def admin_user
+      unless is_admin?
+        flash[:danger] = "You do not have administrative access to this page."
+        redirect_back(fallback_location: { action: "show", id: session[:user_id]})
+      end
+    end
+  
+        # Confirms a coordinator user
+    # def management_user
+    #   unless is_management?
+    #     flash[:danger] = "You do not have administrative access to this page."
+    #     redirect_to user_url(session[:user_id])
+    #   end
+    # end
 end

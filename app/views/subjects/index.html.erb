@@ -12,7 +12,11 @@
           <li><%=link_to "Home", '/students'  %></li>
           <li><%=link_to "Students", '/students'  %></li>
           <li><%=link_to "New Subject", '/subjects/new'  %></li>
-          <li><%=link_to "Assign Professors", '/professors/new'  %></li>
+          <% if current_user[:access_level] == 'admin'%>
+            <li>
+              <%=link_to "Assign Professors", '/professors/new'  %>
+            </li>
+          <% end %>
           <li><%=link_to "Log out", '/logout',:style=> 'position:absolute; margin-left:50%;',:method => "get" %></li>
         </ul>
       </nav>
